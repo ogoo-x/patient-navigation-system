@@ -1,18 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+// app/_layout.tsx
+import {
+  Montserrat_400Regular,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  useFonts,
+} from "@expo-google-fonts/montserrat";
+import { Stack } from "expo-router";
+import { useEffect } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
+import "../global.css";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export default function RootLayout() {
+  const [loaded] = useFonts({
+    Montserrat_400Regular,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+  });
 
-SplashScreen.preventAutoHideAsync();
+  useEffect(() => {
+    if (!loaded) return;
+    const T = Text as typeof Text & { defaultProps?: { style?: object } };
+    T.defaultProps = T.defaultProps || {};
+    T.defaultProps.style = {
+      ...(T.defaultProps.style || {}),
+      fontFamily: "Montserrat_400Regular",
+    };
+  }, [loaded]);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  if (!loaded) {
+    return (
+      <View className="flex-1 items-center justify-center bg-white">
+        <ActivityIndicator color="#187FF6" />
+      </View>
+    );
+  }
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="onboarding" />
+      <Stack.Screen name="login" options={{ presentation: "modal" }} />
+      <Stack.Screen name="(tabs)" />
+    </Stack>
   );
 }
