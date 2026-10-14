@@ -15,7 +15,7 @@ export function searchPlaces(q: string): Place[] {
   const scored = places
     .map((p) => {
       const name = norm(p.name);
-      const building = norm(p.building || "");
+      const category = norm(p.category || "");
       const aliases = (p.aliases || []).map(norm);
       const words = name.split(/\s+/);
 
@@ -24,7 +24,7 @@ export function searchPlaces(q: string): Place[] {
       else if (words.some((w) => w.startsWith(query))) score = 80;
       else if (name.includes(query) || aliases.some((a) => a.includes(query)))
         score = 60;
-      else if (building.includes(query)) score = 40;
+      else if (category.includes(query)) score = 40;
       else return null;
 
       if (p.popular) score += 5;
@@ -41,4 +41,24 @@ export function searchPlaces(q: string): Place[] {
 
 export function getPlaceById(id: string): Place | undefined {
   return places.find((p) => p.id === id);
+}
+
+export function getParentPlace(place: Place): Place | undefined {
+  if (!place.parentId) return undefined;
+  return getPlaceById(place.parentId);
+}
+
+export function getPlaceCoords(
+  place: Place,
+): { lat: number; lng: number } | null {
+  if (place.lat != null && place.lng != null) {
+    return { lat: place.lat, lng: place.lng };
+  }
+  if (place.parentId) {
+    const parent = getPlaceById(place.parentId);
+    if (parent?.lat != null && parent?.lng != null) {
+      return { lat: parent.lat, lng: parent.lng };
+    }
+  }
+  return null;
 }

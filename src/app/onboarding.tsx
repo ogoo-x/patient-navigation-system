@@ -114,7 +114,7 @@ export default function Onboarding() {
                 </View>
               </View>
 
-              <Text className="text-ink text-base leading-6 text-center">
+              <Text className="text-ink text-base font-sans leading-6 text-center">
                 {slide.body}
               </Text>
             </View>

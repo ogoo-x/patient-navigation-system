@@ -1,6 +1,7 @@
 // app/_layout.tsx
 import {
   Montserrat_400Regular,
+  Montserrat_500Medium,
   Montserrat_600SemiBold,
   Montserrat_700Bold,
   useFonts,
@@ -13,6 +14,7 @@ import "../global.css";
 export default function RootLayout() {
   const [loaded] = useFonts({
     Montserrat_400Regular,
+    Montserrat_500Medium,
     Montserrat_600SemiBold,
     Montserrat_700Bold,
   });

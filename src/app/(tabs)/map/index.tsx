@@ -1,56 +1,114 @@
 // app/(tabs)/map/index.tsx
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   Modal,
   Pressable,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import CampusMapWebView, {
+  type CampusMapHandle,
+} from "../../../components/CampusMapWebView";
+import { places } from "../../../data/places";
 import {
   getUserLocation,
   saveUserLocation,
   type StoredLocation,
 } from "../../../lib/locationStore";
+import { consumePendingPick } from "../../../lib/mapRouteStore";
+import { getPlaceById, getPlaceCoords } from "../../../lib/searchPlaces";
 
 type Phase = "loading" | "need-location" | "ready";
+
+type RouteEnd = {
+  kind: "gps" | "place";
+  label: string;
+  lat: number;
+  lng: number;
+  placeId?: string;
+};
 
 export default function MapScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{
-    selectedPlaceId?: string;
-    selectedPlaceName?: string;
-    searchFor?: string;
-  }>();
+  const mapRef = useRef<CampusMapHandle>(null);
 
   const [phase, setPhase] = useState<Phase>("loading");
   const [location, setLocation] = useState<StoredLocation | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [locating, setLocating] = useState(false);
 
-  const selectedDestination =
-    params.selectedPlaceName && params.searchFor !== "origin"
-      ? params.selectedPlaceName
-      : null;
+  const [origin, setOrigin] = useState<RouteEnd | null>(null);
+  const [destination, setDestination] = useState<RouteEnd | null>(null);
 
+  const [sheetPlaceId, setSheetPlaceId] = useState<string | null>(null);
+  const sheetPlace = sheetPlaceId ? getPlaceById(sheetPlaceId) : null;
+
+  // Load saved GPS once. Do not overwrite From if user already chose a place.
   useEffect(() => {
     (async () => {
       const saved = await getUserLocation();
       if (saved) {
         setLocation(saved);
         setPhase("ready");
+        setOrigin(
+          (prev) =>
+            prev ?? {
+              kind: "gps",
+              label: "My location",
+              lat: saved.lat,
+              lng: saved.lng,
+            },
+        );
       } else {
         setPhase("need-location");
       }
     })();
   }, []);
+
+  // When returning from search, apply From or To without remounting the map
+  useFocusEffect(
+    useCallback(() => {
+      const pick = consumePendingPick();
+      if (!pick) return;
+
+      const end: RouteEnd = {
+        kind: "place",
+        label: pick.name,
+        lat: pick.lat,
+        lng: pick.lng,
+        placeId: pick.placeId,
+      };
+
+      if (pick.role === "origin") {
+        setOrigin(end);
+      } else {
+        setDestination(end);
+      }
+    }, []),
+  );
+
+  // Auto-draw route when both ends are set
+  useEffect(() => {
+    if (!origin || !destination) return;
+
+    mapRef.current?.setDestination?.(
+      destination.lat,
+      destination.lng,
+      destination.label,
+    );
+    mapRef.current?.drawRoute?.([
+      [origin.lat, origin.lng],
+      [destination.lat, destination.lng],
+    ]);
+  }, [origin, destination]);
 
   const useCurrentLocation = useCallback(async () => {
     setLocating(true);
@@ -59,7 +117,7 @@ export default function MapScreen() {
       if (status !== "granted") {
         Alert.alert(
           "Location needed",
-          "Bubbles needs your location to place you on the campus map. You can enable it in Settings.",
+          "Bubbles needs your location to place you on the campus map.",
         );
         setLocating(false);
         return;
@@ -78,6 +136,12 @@ export default function MapScreen() {
 
       await saveUserLocation(stored);
       setLocation(stored);
+      setOrigin({
+        kind: "gps",
+        label: "My location",
+        lat: stored.lat,
+        lng: stored.lng,
+      });
       setSheetOpen(false);
       setPhase("ready");
     } catch {
@@ -90,14 +154,65 @@ export default function MapScreen() {
     }
   }, []);
 
-  const openDestinationSearch = () => {
+  const openSearch = (role: "origin" | "destination") => {
     router.push({
       pathname: "/(tabs)/map/search",
-      params: { for: "destination" },
+      params: { for: role },
     });
   };
 
-  // ── Loading ────────────────────────────────────────────────────
+  const resetOriginToGps = () => {
+    if (!location) return;
+    setOrigin({
+      kind: "gps",
+      label: "My location",
+      lat: location.lat,
+      lng: location.lng,
+    });
+  };
+
+  const onMapReady = () => {
+    if (location) {
+      mapRef.current?.setLocation?.(location.lat, location.lng);
+    }
+
+    const pins = places
+      .filter((p) => p.showOnMap)
+      .map((p) => {
+        const c = getPlaceCoords(p);
+        if (!c) return null;
+        return {
+          lat: c.lat,
+          lng: c.lng,
+          name: p.name,
+          category: p.category,
+          id: p.id,
+        };
+      })
+      .filter(Boolean) as {
+      lat: number;
+      lng: number;
+      name: string;
+      category: string;
+      id: string;
+    }[];
+
+    mapRef.current?.setPlaces?.(pins);
+
+    if (origin && destination) {
+      mapRef.current?.setDestination?.(
+        destination.lat,
+        destination.lng,
+        destination.label,
+      );
+      mapRef.current?.drawRoute?.([
+        [origin.lat, origin.lng],
+        [destination.lat, destination.lng],
+      ]);
+    }
+  };
+
+  // ── Loading ───────────────────────────────────────────────────
   if (phase === "loading") {
     return (
       <View className="flex-1 bg-white items-center justify-center">
@@ -106,7 +221,7 @@ export default function MapScreen() {
     );
   }
 
-  // ── Empty state: need location ─────────────────────────────────
+  // ── Need location once ────────────────────────────────────────
   if (phase === "need-location") {
     return (
       <View
@@ -116,21 +231,18 @@ export default function MapScreen() {
         <View className="w-16 h-16 rounded-full bg-primary/10 items-center justify-center mb-6">
           <Ionicons name="location" size={36} color="#187FF6" />
         </View>
-
         <Text className="text-ink text-xl font-bold text-center mb-2">
           Add your address to start exploring
         </Text>
         <Text className="text-ink-muted text-center text-base mb-8 px-4">
           We use your location only to place you on the NAUTH campus map.
         </Text>
-
         <Pressable
           onPress={() => setSheetOpen(true)}
           className="bg-surface border border-border rounded-full px-6 py-3"
         >
           <Text className="text-ink font-semibold">Choose your location</Text>
         </Pressable>
-
         <LocationSheet
           open={sheetOpen}
           onClose={() => setSheetOpen(false)}
@@ -141,75 +253,77 @@ export default function MapScreen() {
     );
   }
 
-  // ── Ready: location saved, pick destination ────────────────────
+  // ── Full-screen map + floating From / To ──────────────────────
   return (
-    <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
-      {/* Destination search field */}
-      <View className="px-4 pt-3 pb-2">
-        <Text className="text-ink font-bold text-lg mb-3 text-center">
-          Select an address
-        </Text>
-        <Pressable
-          onPress={openDestinationSearch}
-          className="flex-row items-center bg-surface border border-border rounded-full px-4 h-12"
-        >
-          <Ionicons name="search" size={20} color="#6B7280" />
-          <Text
-            className={`flex-1 ml-2 text-base ${
-              selectedDestination ? "text-ink" : "text-ink-muted"
-            }`}
-            numberOfLines={1}
-          >
-            {selectedDestination || "Search clinic, bay, or building..."}
-          </Text>
-        </Pressable>
-      </View>
+    <View className="flex-1 bg-white">
+      <CampusMapWebView
+        ref={mapRef}
+        initialCenter={
+          location
+            ? { lat: location.lat, lng: location.lng }
+            : { lat: 5.999, lng: 6.881 }
+        }
+        onMapReady={onMapReady}
+        onPlaceTap={(id) => setSheetPlaceId(id)}
+      />
 
-      {/* Map placeholder — OpenStreetMap later */}
-      <View className="flex-1 mx-4 mb-4 rounded-3xl bg-surface border border-border overflow-hidden items-center justify-center">
-        <Ionicons name="map-outline" size={48} color="#9CA3AF" />
-        <Text className="text-ink-muted mt-3 text-sm text-center px-6">
-          Campus map goes here
-        </Text>
-        {location && (
-          <Text className="text-ink-muted text-xs mt-2">
-            You: {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
-          </Text>
-        )}
-        {selectedDestination && (
-          <Text className="text-primary text-sm font-semibold mt-2 px-4 text-center">
-            Going to: {selectedDestination}
-          </Text>
-        )}
-      </View>
-
-      {/* Bottom CTA */}
-      <View className="px-4" style={{ paddingBottom: insets.bottom + 16 }}>
-        <Pressable
-          className={`rounded-full py-4 items-center ${
-            selectedDestination ? "bg-primary" : "bg-primary/40"
-          }`}
-          disabled={!selectedDestination}
-          onPress={() => {
-            // Next: draw route to selected place
+      <View className="absolute left-4 right-4" style={{ top: insets.top + 8 }}>
+        <View
+          className="bg-white rounded-2xl overflow-hidden"
+          style={{
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.15,
+            shadowRadius: 8,
+            elevation: 6,
           }}
         >
-          <Text className="text-white font-bold text-base">
-            Select location
-          </Text>
-        </Pressable>
-      </View>
+          {/* From */}
+          <Pressable
+            onPress={() => openSearch("origin")}
+            className="flex-row items-center px-4 py-3 border-b border-border"
+          >
+            <View className="w-2.5 h-2.5 rounded-full bg-primary mr-3" />
+            <View className="flex-1">
+              <Text className="text-ink-muted text-xs">From</Text>
+              <Text
+                className="text-ink text-base font-semibold"
+                numberOfLines={1}
+              >
+                {origin?.label ?? "My location"}
+              </Text>
+            </View>
+            {origin?.kind === "place" && location ? (
+              <Pressable onPress={resetOriginToGps} hitSlop={8}>
+                <Ionicons name="locate" size={20} color="#187FF6" />
+              </Pressable>
+            ) : null}
+          </Pressable>
 
-      {/* Re-open location sheet */}
-      <Pressable
-        onPress={() => setSheetOpen(true)}
-        className="absolute right-4"
-        style={{ top: insets.top + 56 }}
-      >
-        <View className="bg-white border border-border rounded-full p-2">
-          <Ionicons name="locate" size={20} color="#187FF6" />
+          {/* To */}
+          <Pressable
+            onPress={() => openSearch("destination")}
+            className="flex-row items-center px-4 py-3"
+          >
+            <View
+              className="w-2.5 h-2.5 rounded-full mr-3"
+              style={{ backgroundColor: "#EFC718" }}
+            />
+            <View className="flex-1">
+              <Text className="text-ink-muted text-xs">To</Text>
+              <Text
+                className={`text-base font-semibold ${
+                  destination ? "text-ink" : "text-ink-muted"
+                }`}
+                numberOfLines={1}
+              >
+                {destination?.label ?? "Search clinics, wards, labs..."}
+              </Text>
+            </View>
+            <Ionicons name="search" size={20} color="#6B7280" />
+          </Pressable>
         </View>
-      </Pressable>
+      </View>
 
       <LocationSheet
         open={sheetOpen}
@@ -217,6 +331,78 @@ export default function MapScreen() {
         locating={locating}
         onUseCurrent={useCurrentLocation}
       />
+      <Modal
+        visible={!!sheetPlace}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setSheetPlaceId(null)}
+      >
+        <Pressable
+          className="flex-1 justify-end bg-black/30"
+          onPress={() => setSheetPlaceId(null)}
+        >
+          <Pressable
+            className="bg-white rounded-t-3xl px-5 pt-3 pb-10"
+            onPress={(e) => e.stopPropagation()}
+          >
+            <View className="w-10 h-1 rounded-full bg-border self-center mb-4" />
+
+            <Text className="text-ink text-xl font-bold mb-1">
+              {sheetPlace?.name}
+            </Text>
+
+            {sheetPlace?.badge ? (
+              <View className="self-start px-2 py-1 rounded-full bg-primary/10 mb-3">
+                <Text className="text-primary text-xs font-semibold">
+                  {sheetPlace.badge}
+                </Text>
+              </View>
+            ) : null}
+
+            {sheetPlace?.summary ? (
+              <Text className="text-ink-muted text-base mb-3">
+                {sheetPlace.summary}
+              </Text>
+            ) : null}
+
+            {sheetPlace?.services && sheetPlace.services.length > 0 ? (
+              <View className="mb-3">
+                <Text className="text-ink font-semibold mb-1">Services</Text>
+                {sheetPlace.services.map((s) => (
+                  <Text key={s} className="text-ink-muted text-sm mb-0.5">
+                    • {s}
+                  </Text>
+                ))}
+              </View>
+            ) : null}
+
+            {sheetPlace?.hours ? (
+              <Text className="text-ink-muted text-sm mb-2">
+                Hours: {sheetPlace.hours}
+              </Text>
+            ) : null}
+
+            <Pressable
+              className="bg-primary rounded-full py-3 items-center mt-2"
+              onPress={() => {
+                if (!sheetPlace) return;
+                const c = getPlaceCoords(sheetPlace);
+                if (!c) return;
+                setDestination({
+                  kind: "place",
+                  label: sheetPlace.name,
+                  lat: c.lat,
+                  lng: c.lng,
+                  placeId: sheetPlace.id,
+                });
+                setSheetPlaceId(null);
+              }}
+            >
+              <Text className="text-white font-bold">Directions</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -250,17 +436,6 @@ function LocationSheet({
               <Ionicons name="close" size={22} color="#6B7280" />
             </Pressable>
           </View>
-
-          <View className="flex-row items-center bg-surface rounded-full px-4 h-12 mb-4 border border-border">
-            <Ionicons name="search" size={18} color="#6B7280" />
-            <TextInput
-              placeholder="Enter an address"
-              placeholderTextColor="#6B7280"
-              className="flex-1 ml-2 text-ink text-base"
-              editable={!locating}
-            />
-          </View>
-
           <Pressable
             onPress={onUseCurrent}
             disabled={locating}

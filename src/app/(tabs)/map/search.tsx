@@ -3,17 +3,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Place } from "../../../data/places";
-import { searchPlaces } from "../../../lib/searchPlaces";
+import { setPendingPick } from "../../../lib/mapRouteStore";
+import { getParentPlace, getPlaceCoords, searchPlaces } from "../../../lib/searchPlaces";
 
 function highlightName(name: string, query: string) {
   if (!query.trim()) {
@@ -59,7 +60,9 @@ function categoryIcon(
 export default function MapSearch() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { for: searchFor } = useLocalSearchParams<{ for?: string }>();
+  const { for: searchFor } = useLocalSearchParams<{
+    for?: string | string[];
+  }>();
   const [query, setQuery] = useState("");
 
   const results = useMemo(() => searchPlaces(query), [query]);
@@ -68,26 +71,22 @@ export default function MapSearch() {
   const title =
     searchFor === "origin" ? "Your location" : "Select a destination";
 
-  const selectPlace = (place: Place) => {
-    router.back();
-    // Pass selection back via params on the map index
-    router.setParams({
-      selectedPlaceId: place.id,
-      selectedPlaceName: place.name,
-      searchFor: searchFor || "destination",
-    });
-  };
-
-  // setParams on back is unreliable; use a small delay replace instead
   const onSelect = (place: Place) => {
-    router.replace({
-      pathname: "/(tabs)/map",
-      params: {
-        selectedPlaceId: place.id,
-        selectedPlaceName: place.name,
-        searchFor: searchFor || "destination",
-      },
+    const roleRaw = Array.isArray(searchFor) ? searchFor[0] : searchFor;
+    const role = roleRaw === "origin" ? "origin" : "destination";
+
+    const coords = getPlaceCoords(place);
+    if (!coords) return;
+
+    setPendingPick({
+      role,
+      placeId: place.id,
+      name: place.name,
+      lat: coords.lat,
+      lng: coords.lng,
     });
+
+    router.back();
   };
 
   return (
@@ -105,7 +104,7 @@ export default function MapSearch() {
             onChangeText={setQuery}
             placeholder="Search clinic, bay, or building..."
             placeholderTextColor="#6B7280"
-            className="flex-1 ml-2 text-ink text-base"
+            className="flex-1 ml-2 text-ink font-sans text-base"
             autoFocus
             returnKeyType="search"
           />
@@ -129,7 +128,7 @@ export default function MapSearch() {
         contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Ask us — disabled for now */}
+        {/* Ask us — disabled */}
         <View className="mx-4 mb-4 p-4 rounded-2xl bg-surface border border-border flex-row items-center opacity-50">
           <View className="w-10 h-10 rounded-full bg-border/60 items-center justify-center mr-3">
             <Ionicons
@@ -142,7 +141,7 @@ export default function MapSearch() {
             <Text className="text-ink-muted font-semibold">
               Not sure? Ask us
             </Text>
-            <Text className="text-ink-muted text-sm">
+            <Text className="text-ink-muted font-sans text-sm">
               Coming soon — describe where you need to go
             </Text>
           </View>
@@ -160,47 +159,61 @@ export default function MapSearch() {
 
         {results.length === 0 ? (
           <View className="px-5 py-10 items-center">
-            <Text className="text-ink-muted text-center">
+            <Text className="text-ink-muted font-sans text-center">
               No places match “{query}”
             </Text>
           </View>
         ) : (
-          results.map((place) => (
-            <Pressable
-              key={place.id}
-              onPress={() => onSelect(place)}
-              className="mx-4 mb-2 p-4 rounded-2xl bg-white border border-border flex-row items-start active:bg-surface"
-            >
-              <View className="w-11 h-11 rounded-2xl bg-primary/10 items-center justify-center mr-3">
-                <Ionicons
-                  name={categoryIcon(place.category)}
-                  size={22}
-                  color="#187FF6"
-                />
-              </View>
-              <View className="flex-1 min-w-0">
-                <View className="flex-row flex-wrap items-center gap-2">
-                  {highlightName(place.name, query)}
-                  {place.badge ? (
-                    <View className="px-2 py-0.5 rounded-full bg-surface">
-                      <Text className="text-ink-muted text-xs">
-                        {place.badge}
-                      </Text>
-                    </View>
+          results.map((place) => {
+            const parent = getParentPlace(place);
+            const isChild = Boolean(parent);
+
+            return (
+              <Pressable
+                key={place.id}
+                onPress={() => onSelect(place)}
+                className={`mb-2 p-4 rounded-2xl bg-white border border-border flex-row items-start active:bg-surface ${
+                  isChild ? "ml-8 mr-4" : "mx-4"
+                }`}
+              >
+                {isChild ? (
+                  <Text className="text-primary text-lg mr-1 mt-0.5">↳</Text>
+                ) : null}
+
+                <View className="w-11 h-11 rounded-2xl bg-primary/10 items-center justify-center mr-3">
+                  <Ionicons
+                    name={categoryIcon(place.category)}
+                    size={22}
+                    color="#187FF6"
+                  />
+                </View>
+
+                <View className="flex-1 min-w-0">
+                  <View className="flex-row flex-wrap font-sans items-center gap-2">
+                    {highlightName(place.name, query)}
+                    {place.badge ? (
+                      <View className="px-2 py-0.5 rounded-full bg-surface">
+                        <Text className="text-ink-muted font-sans text-xs">
+                          {place.badge}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+
+                  {parent ? (
+                    <Text
+                      className="text-primary font-semibold text-sm mt-0.5"
+                      numberOfLines={1}
+                    >
+                      In {parent.name}
+                    </Text>
                   ) : null}
                 </View>
-                {place.building ? (
-                  <Text
-                    className="text-ink-muted text-sm mt-0.5"
-                    numberOfLines={2}
-                  >
-                    {place.building}
-                  </Text>
-                ) : null}
-              </View>
-              <Ionicons name="chevron-forward" size={18} color="#9CA3AF" />
-            </Pressable>
-          ))
+
+                <Ionicons name="chevron-forward" size={18} color="#9CA3AF" />
+              </Pressable>
+            );
+          })
         )}
       </ScrollView>
     </KeyboardAvoidingView>
