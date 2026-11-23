@@ -1,152 +1,258 @@
-// app/index.web.tsx
-import { useRouter } from "expo-router";
-import { useRef, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { Link, useRouter } from "expo-router";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
-  Dimensions,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
+  Platform,
   Pressable,
   ScrollView,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
-
-const { height: SCREEN_H } = Dimensions.get("window");
-
-const sections = [
-  {
-    key: "hero",
-    title: "Never get lost on campus again",
-    body: "Share your location and get clear walking directions around the NAUTH campus.",
-    showCtas: true,
-    final: false,
-  },
-  {
-    key: "save",
-    title: "Save places you need",
-    body: "Pin clinics, wards, and entrances. Open them again whenever you come back.",
-    showCtas: false,
-    final: false,
-  },
-  {
-    key: "guide",
-    title: "Your campus navigation guide",
-    body: "Maps, directions, and saved places in one place.",
-    showCtas: true,
-    final: true,
-  },
-];
+import MarketingFooter from "../components/marketing/MarketingFooter";
+import MarketingHeader from "../components/marketing/MarketingHeader";
+import { useReducedMotion } from "../hooks/use-reduced-motion";
 
 export default function Landing() {
   const router = useRouter();
-  const scrollRef = useRef<ScrollView>(null);
-  const [index, setIndex] = useState(0);
+  const { width, height } = useWindowDimensions();
+  const isDesktop = width >= 900;
+  const reduceMotion = useReducedMotion();
 
-  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const next = Math.round(e.nativeEvent.contentOffset.y / SCREEN_H);
-    if (next !== index && next >= 0 && next < sections.length) {
-      setIndex(next);
-    }
-  };
-
-  const goToMap = () => router.push("/(tabs)/map");
-  const goToLogin = () => router.push("/login");
-
-  const progress = sections.length <= 1 ? 0 : index / (sections.length - 1);
-  const isFinal = index === sections.length - 1;
+  const enterApp = () => router.push({ pathname: "/(tabs)/map" });
 
   return (
-    <View className="flex-1 bg-white">
-      {/* Top bar */}
-      <View className="absolute top-0 left-0 right-0 z-20 px-6 pt-5 pb-3 flex-row items-center justify-between">
-        <Text className="text-xl font-bold text-primary">Bubbles.</Text>
-        <Pressable
-          onPress={goToLogin}
-          className="px-4 py-2 rounded-full border border-primary"
-        >
-          <Text className="text-primary font-semibold text-sm">Log in</Text>
-        </Pressable>
-      </View>
+    <ScrollView
+      className="flex-1 bg-white"
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
+    >
+      <MarketingHeader />
 
-      {/* Progress rail: gray track, blue thumb, gold on last slide */}
       <View
-        pointerEvents="none"
-        className="absolute right-5 top-0 bottom-0 z-20 justify-center"
+        style={{
+          minHeight: Math.max(isDesktop ? 560 : 640, height - 80),
+        }}
+        className={`justify-center ${isDesktop ? "px-10" : "px-6 pb-8"}`}
       >
-        <View className="h-40 w-1 rounded-full bg-border overflow-hidden">
-          <View
-            className={`absolute left-0 w-1 h-12 rounded-full ${
-              isFinal ? "bg-accent" : "bg-primary"
-            }`}
-            style={{
-              top: `${progress * 100}%`,
-              transform: [{ translateY: -24 }],
-            }}
-          />
-        </View>
-      </View>
-
-      <ScrollView
-        ref={scrollRef}
-        pagingEnabled
-        showsVerticalScrollIndicator={false}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        bounces={false}
-        decelerationRate="fast"
-        snapToInterval={SCREEN_H}
-        snapToAlignment="start"
-        disableIntervalMomentum
-      >
-        {sections.map((section) => (
-          <View
-            key={section.key}
-            style={{ height: SCREEN_H }}
-            className="w-full bg-white px-8 justify-center"
-          >
-            <View className="w-full max-w-3xl self-center pr-10">
-              <Text className="text-4xl md:text-5xl font-bold text-ink leading-tight mb-4">
-                {section.title}
-              </Text>
-              <Text className="text-base md:text-lg text-ink-muted leading-7 mb-8 max-w-xl">
-                {section.body}
-              </Text>
-
-              <View className="w-full max-w-md aspect-[4/3] rounded-3xl bg-surface border border-border items-center justify-center mb-8">
-                <Text className="text-ink-muted text-sm text-center">
-                  Illustration placeholder
-                </Text>
-              </View>
-
-              {section.showCtas && (
-                <View className="flex-row flex-wrap gap-3">
+        <View
+          className={`w-full max-w-6xl self-center ${
+            isDesktop ? "flex-row items-center" : "items-center"
+          }`}
+        >
+          <View className={isDesktop ? "flex-1 pr-12" : "w-full"}>
+            <Text className="text-primary font-semibold text-base mb-4">
+              YOUR HOSPITAL CAMPUS GUIDE
+            </Text>
+            <Text
+              className={`text-ink font-bold leading-tight ${
+                isDesktop ? "text-6xl" : "text-5xl"
+              }`}
+            >
+              Find your way to care.
+            </Text>
+            <Text className="text-ink-muted text-lg leading-8 mt-5 max-w-xl">
+              Get simple directions to clinics, wards, and services across NAUTH
+              Akamili, our first supported campus. Know where you’re going
+              before you take a step.
+            </Text>
+            <View
+              className={
+                isDesktop
+                  ? "flex-row flex-wrap items-center gap-3 mt-8"
+                  : "mt-8 w-full max-w-md flex-col items-stretch gap-3"
+              }
+            >
+              <ExploreButton onPress={enterApp} />
+              {Platform.OS === "web" && (
+                <Link
+                  href="/https://github.com/ogoo-x/patient-navigation-system/releases/latest/download/bubbles.apk"
+                  asChild
+                >
                   <Pressable
-                    onPress={goToMap}
-                    className={`rounded-full px-6 py-4 ${
-                      section.final ? "bg-ink" : "bg-primary"
-                    }`}
+                    accessibilityRole="link"
+                    accessibilityLabel="Download our APK and use offline"
+                    className={
+                      isDesktop
+                        ? "rounded-full border border-border bg-white px-6 py-4 shadow-sm hover:opacity-80 active:opacity-80"
+                        : "w-full rounded-full border border-border bg-white px-6 py-4 shadow-sm hover:opacity-80 active:opacity-80"
+                    }
                   >
-                    <Text className="text-white font-bold text-base">
-                      {section.final ? "Get started" : "Open map as guest"}
+                    <Text className="text-ink font-semibold text-base text-center">
+                      Download our APK and use offline
                     </Text>
                   </Pressable>
-
-                  {!section.final && (
-                    <Pressable
-                      onPress={goToLogin}
-                      className="rounded-full px-6 py-4 border border-primary"
-                    >
-                      <Text className="text-primary font-semibold text-base">
-                        Log in / Sign up
-                      </Text>
-                    </Pressable>
-                  )}
-                </View>
+                </Link>
               )}
             </View>
           </View>
-        ))}
-      </ScrollView>
+
+          <View
+            className={
+              isDesktop ? "flex-1 items-center justify-center" : "mt-8"
+            }
+          >
+            <Image
+              source={require("../../assets/Onboarding Illustration 1.png")}
+              contentFit="contain"
+              accessibilityLabel="Bubbles mascot exploring a hospital campus"
+              className={isDesktop ? "bubbles-hero-float" : ""}
+              style={{
+                width: isDesktop ? Math.min(width * 0.4, 480) : width * 0.78,
+                height: isDesktop ? Math.min(width * 0.4, 480) : 240,
+              }}
+            />
+          </View>
+        </View>
+      </View>
+      <HowItWorks isDesktop={isDesktop} reduceMotion={reduceMotion} />
+      <MarketingFooter />
+    </ScrollView>
+  );
+}
+
+function HowItWorks({
+  isDesktop,
+  reduceMotion,
+}: {
+  isDesktop: boolean;
+  reduceMotion: boolean;
+}) {
+  const sectionRef = useRef<View>(null);
+  const animationStarted = useRef(false);
+  const [activeStep, setActiveStep] = useState(-1);
+  const steps = [
+    {
+      icon: "phone-portrait-outline" as const,
+      caption: "Open the website or app",
+    },
+    {
+      icon: "search-outline" as const,
+      caption: "Select where you are going",
+    },
+    {
+      icon: "navigate-outline" as const,
+      caption: "Get a path made just for you",
+    },
+  ];
+
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    const element = sectionRef.current as unknown as Element | null;
+    if (!element || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || animationStarted.current) return;
+        animationStarted.current = true;
+        observer.disconnect();
+        if (reduceMotion) {
+          setActiveStep(steps.length - 1);
+          return;
+        }
+
+        setActiveStep(0);
+        let nextStep = 1;
+        const timer = window.setInterval(() => {
+          setActiveStep(nextStep);
+          nextStep += 1;
+          if (nextStep === steps.length) window.clearInterval(timer);
+        }, 260);
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [reduceMotion, steps.length]);
+
+  return (
+    <View ref={sectionRef} className="w-full items-center bg-field px-6 py-16">
+      <View className="w-full max-w-5xl">
+        <Text className="text-ink text-3xl font-bold text-center">
+          Never get lost
+        </Text>
+        <Text className="text-ink-muted text-base text-center mt-3 mb-10">
+          Three simple steps to find your way around campus.
+        </Text>
+        <View
+          className={`items-center ${
+            isDesktop ? "flex-row justify-center" : "w-full"
+          }`}
+        >
+          {steps.map((step, index) => {
+            const active = index <= activeStep;
+            return (
+              <Fragment key={step.caption}>
+                <View
+                  accessibilityRole="summary"
+                  className={`bubbles-step-card rounded-3xl border items-center justify-center px-5 py-6 ${
+                    isDesktop ? "flex-1 min-h-44" : "w-full"
+                  } ${
+                    active
+                      ? "border-primary bg-primary"
+                      : "border-border bg-white"
+                  }`}
+                >
+                  <View
+                    className={`w-12 h-12 rounded-full items-center justify-center mb-3 ${
+                      active ? "bg-accent" : "bg-surface"
+                    }`}
+                  >
+                    <Text className="text-ink font-bold">{index + 1}</Text>
+                  </View>
+                  <Ionicons
+                    name={step.icon}
+                    size={25}
+                    color={active ? "white" : "#6B7280"}
+                  />
+                  <Text
+                    className={`text-center font-semibold mt-3 ${
+                      active ? "text-white" : "text-ink"
+                    }`}
+                  >
+                    {step.caption}
+                  </Text>
+                </View>
+                {index < steps.length - 1 && (
+                  <View
+                    className={`overflow-hidden rounded-full bg-border ${
+                      isDesktop ? "h-1 w-12 mx-2" : "h-8 w-1 ml-6 self-start"
+                    }`}
+                  >
+                    <View
+                      className={`bubbles-step-fill rounded-full bg-primary ${
+                        isDesktop ? "h-full" : "w-full"
+                      }`}
+                      style={
+                        isDesktop
+                          ? { width: activeStep > index ? "100%" : "0%" }
+                          : { height: activeStep > index ? "100%" : "0%" }
+                      }
+                    />
+                  </View>
+                )}
+              </Fragment>
+            );
+          })}
+        </View>
+      </View>
     </View>
+  );
+}
+
+function ExploreButton({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel="Explore campus"
+      className="self-start rounded-full bg-primary px-6 py-3 flex-row items-center shadow-sm"
+    >
+      <Ionicons name="compass-outline" size={19} color="white" />
+      <Text className="font-bold text-base ml-2 text-white">
+        Explore campus
+      </Text>
+    </Pressable>
   );
 }

@@ -4,13 +4,6 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["Montserrat_400Regular"],
-        medium: ["Montserrat_500Medium"],
-        semibold: ["Montserrat_600SemiBold"],
-        bold: ["Montserrat_700Bold"],
-      },
-
       colors: {
         primary: "#187FF6",
         accent: "#EFC718",
@@ -20,6 +13,10 @@ module.exports = {
         "ink-muted": "#6B7280",
         border: "#E5E9F0",
         route: "#F0553F",
+      },
+      fontFamily: {
+        sans: ["Montserrat_400Regular"],
+        montserrat: ["Montserrat_400Regular"],
       },
     },
   },

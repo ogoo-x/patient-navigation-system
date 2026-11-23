@@ -13,7 +13,10 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Place } from "../../../data/places";
-import { setPendingPick } from "../../../lib/mapRouteStore";
+import {
+  setPendingMyLocation,
+  setPendingPick,
+} from "../../../lib/mapRouteStore";
 import { getParentPlace, getPlaceCoords, searchPlaces } from "../../../lib/searchPlaces";
 
 function highlightName(name: string, query: string) {
@@ -67,9 +70,10 @@ export default function MapSearch() {
 
   const results = useMemo(() => searchPlaces(query), [query]);
   const isEmptyQuery = query.trim().length === 0;
+  const isOriginSearch =
+    (Array.isArray(searchFor) ? searchFor[0] : searchFor) === "origin";
 
-  const title =
-    searchFor === "origin" ? "Your location" : "Select a destination";
+  const title = isOriginSearch ? "Your location" : "Select a destination";
 
   const onSelect = (place: Place) => {
     const roleRaw = Array.isArray(searchFor) ? searchFor[0] : searchFor;
@@ -79,6 +83,7 @@ export default function MapSearch() {
     if (!coords) return;
 
     setPendingPick({
+      kind: "place",
       role,
       placeId: place.id,
       name: place.name,
@@ -93,29 +98,32 @@ export default function MapSearch() {
     <KeyboardAvoidingView
       className="flex-1 bg-white"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={{ paddingTop: insets.top }}
+      style={{ paddingTop: insets.top, backgroundColor: "#FFFFFF" }}
     >
       {/* Search bar */}
       <View className="px-4 pt-3 pb-2 flex-row items-center gap-2">
-        <View className="flex-1 flex-row items-center bg-surface border border-border rounded-full px-4 h-12">
-          <Ionicons name="search" size={20} color="#187FF6" />
+        <View
+          className="flex-1 flex-row items-center bg-white border border-[#202124] rounded-xl px-4 h-12"
+          style={{ backgroundColor: "#FFFFFF" }}
+        >
+          <Ionicons name="search" size={19} color="#202124" />
           <TextInput
             value={query}
             onChangeText={setQuery}
-            placeholder="Search clinic, bay, or building..."
+            placeholder="Search clinics, wards, or buildings"
             placeholderTextColor="#6B7280"
             className="flex-1 ml-2 text-ink font-sans text-base"
             autoFocus
             returnKeyType="search"
           />
-          {query.length > 0 && (
-            <Pressable onPress={() => setQuery("")} hitSlop={8}>
-              <Ionicons name="close-circle" size={20} color="#6B7280" />
-            </Pressable>
-          )}
         </View>
-        <Pressable onPress={() => router.back()} className="px-2 py-3">
-          <Text className="text-ink-muted font-semibold">Cancel</Text>
+        <Pressable
+          onPress={() => (query ? setQuery("") : router.back())}
+          accessibilityRole="button"
+          accessibilityLabel={query ? "Clear search" : "Close search"}
+          className="w-12 h-12 rounded-full bg-white border border-[#202124] items-center justify-center"
+        >
+          <Ionicons name="close" size={21} color="#202124" />
         </Pressable>
       </View>
 
@@ -128,31 +136,31 @@ export default function MapSearch() {
         contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Ask us — disabled */}
-        <View className="mx-4 mb-4 p-4 rounded-2xl bg-surface border border-border flex-row items-center opacity-50">
-          <View className="w-10 h-10 rounded-full bg-border/60 items-center justify-center mr-3">
-            <Ionicons
-              name="chatbubble-ellipses-outline"
-              size={20}
-              color="#6B7280"
-            />
-          </View>
-          <View className="flex-1">
-            <Text className="text-ink-muted font-semibold">
-              Not sure? Ask us
-            </Text>
-            <Text className="text-ink-muted font-sans text-sm">
-              Coming soon — describe where you need to go
-            </Text>
-          </View>
-          <Ionicons name="lock-closed" size={16} color="#9CA3AF" />
-        </View>
+        {isOriginSearch ? (
+          <Pressable
+            onPress={() => {
+              setPendingMyLocation();
+              router.back();
+            }}
+            className="mx-4 mb-4 p-4 rounded-2xl bg-white border border-border flex-row items-center"
+          >
+            <View className="w-11 h-11 rounded-2xl bg-primary/10 items-center justify-center mr-3">
+              <Ionicons name="locate" size={22} color="#187FF6" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-ink font-bold text-base">My location</Text>
+              <Text className="text-ink-muted text-sm">
+                Use your current GPS position
+              </Text>
+            </View>
+          </Pressable>
+        ) : null}
 
         {/* Section label */}
         <View className="px-5 mb-2 flex-row items-center justify-between">
           <Text className="text-ink-muted text-xs font-semibold uppercase tracking-wider">
             {isEmptyQuery
-              ? "Places popularly visited"
+              ? "Suggested locations"
               : `Results (${results.length})`}
           </Text>
         </View>

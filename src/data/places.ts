@@ -17,6 +17,7 @@ export type Place = {
   popular?: boolean;
   lat?: number;
   lng?: number;
+  imageUri?: string;
   showOnMap?: boolean;
   summary?: string;
   services?: string[];
@@ -527,7 +528,7 @@ export const places: Place[] = [
     aliases: ["restaurant", "food", "dining", "food court"],
     category: "amenity",
     parentId: "multipurpose",
-    showOnMap: true,
+    // showOnMap: true,
     badge: "Wing A",
     lat: 5.998556,
     lng: 6.88075,
@@ -538,7 +539,7 @@ export const places: Place[] = [
     aliases: ["creche", "childcare", "daycare"],
     category: "amenity",
     parentId: "multipurpose",
-    showOnMap: true,
+    // showOnMap: true,
     badge: "Wing B",
     lat: 5.998556,
     lng: 6.88075,

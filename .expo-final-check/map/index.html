@@ -1,0 +1,530 @@
+<!DOCTYPE html><html  lang="en"><head><title data-rh="true"></title><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><style id="expo-reset">#root,body,html{height:100%}body{overflow:hidden}#root{display:flex}</style><style id="react-native-stylesheet">[stylesheet-group="0"]{}
+body{margin:0;}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+input::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-webkit-search-results-button,input::-webkit-search-results-decoration{display:none;}
+[stylesheet-group="1"]{}
+.css-11aywtz{-moz-appearance:textfield;-webkit-appearance:none;background-color:rgba(0,0,0,0.00);border-bottom-left-radius:0px;border-bottom-right-radius:0px;border-top-left-radius:0px;border-top-right-radius:0px;border:0 solid black;box-sizing:border-box;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0px;padding:0px;resize:none;}
+.css-146c3p1{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:rgba(0,0,0,1.00);display:inline;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;list-style:none;margin:0px;padding:0px;position:relative;text-align:start;text-decoration:none;white-space:pre-wrap;word-wrap:break-word;}
+.css-1jxf684{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:inherit;display:inline;font:inherit;list-style:none;margin:0px;padding:0px;position:relative;text-align:inherit;text-decoration:none;white-space:inherit;word-wrap:break-word;}
+.css-9pa8cd{bottom:0px;height:100%;left:0px;opacity:0;position:absolute;right:0px;top:0px;width:100%;z-index:-1;}
+.css-g5y9jx{align-content:flex-start;align-items:stretch;background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;display:flex;flex-basis:auto;flex-direction:column;flex-shrink:0;list-style:none;margin:0px;min-height:0px;min-width:0px;padding:0px;position:relative;text-decoration:none;z-index:0;}
+[stylesheet-group="2"]{}
+.r-11mg6pl{border-bottom-color:rgba(255,255,255,1.00);border-left-color:rgba(255,255,255,1.00);border-right-color:rgba(255,255,255,1.00);border-top-color:rgba(255,255,255,1.00);}
+.r-13awgt0{flex:1;}
+.r-1awa8pu{border-bottom-color:rgba(101,119,134,1.00);border-left-color:rgba(101,119,134,1.00);border-right-color:rgba(101,119,134,1.00);border-top-color:rgba(101,119,134,1.00);}
+.r-1bq2mok{margin:3px;}
+.r-1d4xg89{border-bottom-color:rgba(170,184,194,1.00);border-left-color:rgba(170,184,194,1.00);border-right-color:rgba(170,184,194,1.00);border-top-color:rgba(170,184,194,1.00);}
+.r-1dzdj1l{border-bottom-left-radius:10px;border-bottom-right-radius:10px;border-top-left-radius:10px;border-top-right-radius:10px;}
+.r-1f0042m{border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px;}
+.r-1j16mh1{border-bottom-left-radius:100%;border-bottom-right-radius:100%;border-top-left-radius:100%;border-top-right-radius:100%;}
+.r-1jkafct{border-bottom-left-radius:2px;border-bottom-right-radius:2px;border-top-left-radius:2px;border-top-right-radius:2px;}
+.r-1jyn79y{border-bottom-color:rgba(0,150,136,1.00);border-left-color:rgba(0,150,136,1.00);border-right-color:rgba(0,150,136,1.00);border-top-color:rgba(0,150,136,1.00);}
+.r-1pcd2l5{padding:20px;}
+.r-1phboty{border-bottom-style:solid;border-left-style:solid;border-right-style:solid;border-top-style:solid;}
+.r-1q9bdsx{border-bottom-left-radius:12px;border-bottom-right-radius:12px;border-top-left-radius:12px;border-top-right-radius:12px;}
+.r-1qsk4np{overflow-x:clip;overflow-y:clip;}
+.r-1rvyss1{border-bottom-color:rgba(255,255,255,0.20);border-left-color:rgba(255,255,255,0.20);border-right-color:rgba(255,255,255,0.20);border-top-color:rgba(255,255,255,0.20);}
+.r-1sp51qo{padding:10px;}
+.r-1udh08x{overflow-x:hidden;overflow-y:hidden;}
+.r-1uu6nss{padding:5px;}
+.r-1xfd6ze{border-bottom-left-radius:8px;border-bottom-right-radius:8px;border-top-left-radius:8px;border-top-right-radius:8px;}
+.r-4a18lf{border-bottom-color:rgba(255,0,0,1.00);border-left-color:rgba(255,0,0,1.00);border-right-color:rgba(255,0,0,1.00);border-top-color:rgba(255,0,0,1.00);}
+.r-60ke3l{border-bottom-color:rgba(0,128,0,1.00);border-left-color:rgba(0,128,0,1.00);border-right-color:rgba(0,128,0,1.00);border-top-color:rgba(0,128,0,1.00);}
+.r-6t2glc{border-bottom-left-radius:40px;border-bottom-right-radius:40px;border-top-left-radius:40px;border-top-right-radius:40px;}
+.r-9x6qib{border-bottom-color:rgba(204,214,221,1.00);border-left-color:rgba(204,214,221,1.00);border-right-color:rgba(204,214,221,1.00);border-top-color:rgba(204,214,221,1.00);}
+.r-crgep1{margin:0px;}
+.r-d045u9{border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;}
+.r-d23pfw{padding:24px;}
+.r-edyy15{padding:8px;}
+.r-fx7oqy{border-bottom-color:rgba(0,0,255,1.00);border-left-color:rgba(0,0,255,1.00);border-right-color:rgba(0,0,255,1.00);border-top-color:rgba(0,0,255,1.00);}
+.r-krxsd3{display:-webkit-box;}
+.r-rs99b7{border-bottom-width:1px;border-left-width:1px;border-right-width:1px;border-top-width:1px;}
+.r-t60dpp{padding:0px;}
+.r-wg31gx{border-bottom-color:rgba(49,53,56,1.00);border-left-color:rgba(49,53,56,1.00);border-right-color:rgba(49,53,56,1.00);border-top-color:rgba(49,53,56,1.00);}
+.r-xoduu5{display:inline-flex;}
+.r-ywje51{margin:auto;}
+.r-z2wwpe{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;}
+[stylesheet-group="2.1"]{}
+.r-11f147o{padding-bottom:8px;padding-top:8px;}
+.r-17q4wm6{margin-left:5px;margin-right:5px;}
+.r-184id4b{margin-bottom:12px;margin-top:12px;}
+.r-1d7mnkm{padding-bottom:15px;padding-top:15px;}
+.r-1e084wi{padding-left:0px;padding-right:0px;}
+.r-1mmae3n{padding-bottom:12px;padding-top:12px;}
+.r-1ntr0p{padding-left:5px;padding-right:5px;}
+.r-1rsorjc{padding-left:36px;padding-right:36px;}
+.r-1yd117h{padding-bottom:7px;padding-top:7px;}
+.r-3o4zer{padding-left:12px;padding-right:12px;}
+.r-cxgwc0{padding-left:24px;padding-right:24px;}
+.r-f8sm7e{margin-left:auto;margin-right:auto;}
+.r-is05cd{padding-left:8px;padding-right:8px;}
+.r-jdiy1a{margin-left:11px;margin-right:11px;}
+.r-jusfrs{margin-left:12px;margin-right:12px;}
+.r-n5f61p{margin-bottom:3px;margin-top:3px;}
+.r-n7gxbd{padding-left:4px;padding-right:4px;}
+.r-u9wvl5{padding-left:20px;padding-right:20px;}
+.r-ugi1tw{padding-left:5%;padding-right:5%;}
+.r-w7s2jr{padding-bottom:16px;padding-top:16px;}
+.r-ytbthy{padding-bottom:10px;padding-top:10px;}
+[stylesheet-group="2.2"]{}
+.r-10s2tm5{left:0%;}
+.r-16o8guy{right:100%;}
+.r-1a11zyx{margin-right:12px;}
+.r-1cwvpvk{margin-left:12px;}
+.r-1e97lx8{margin-right:3px;}
+.r-1euzeng{padding-left:24px;}
+.r-1g4tz6n{margin-right:-14.5px;}
+.r-1h31txp{padding-right:16px;}
+.r-1lhn9r{margin-left:-14.5px;}
+.r-1sqnqi2{margin-left:3px;}
+.r-1vl2501{padding-right:24px;}
+.r-9mo606{margin-right:10px;}
+.r-c59us2{left:-3px;}
+.r-dqe1q{right:0%;}
+.r-qb41rp{margin-right:5px;}
+.r-rci37q{left:100%;}
+.r-uhung1{margin-left:10px;}
+.r-vpmibe{right:-3px;}
+.r-w67my2{padding-left:16px;}
+.r-wizibn{margin-left:5px;}
+[stylesheet-group="3"]{}
+.r-105ug2t{pointer-events:auto!important;}
+.r-10ptun7{height:16px;}
+.r-10v3vxq{transform:scaleX(-1);}
+.r-10x49cs{font-size:10px;}
+.r-10xqauy{padding-top:env(safe-area-inset-top);}
+.r-11j9u27{visibility:hidden;}
+.r-11mpjr4{background-color:rgba(223,223,223,1.00);}
+.r-11udlyb{background-color:rgba(0,150,136,1.00);}
+.r-11v9fek{min-width:180px;}
+.r-11yh6sk{overflow-x:hidden;}
+.r-12f6czt{top:17px;}
+.r-12vffkv>* {pointer-events:auto;}
+.r-12vffkv{pointer-events:none!important;}
+.r-135wba7{line-height:24px;}
+.r-13aq9py{animation-name:r-1iq689l;}
+.r-13qz1uu{width:100%;}
+.r-13tjlyg{transition-duration:0.1s;}
+.r-1472mwg{height:24px;}
+.r-14gqq1x{margin-top:4px;}
+.r-14lw9ot{background-color:rgba(255,255,255,1.00);}
+.r-14sbq61{background-color:rgba(33,150,243,1.00);}
+.r-150rngu{-webkit-overflow-scrolling:touch;}
+.r-16y2uox{flex-grow:1;}
+.r-173mn98{align-self:flex-end;}
+.r-173mzie{transform:scaleY(-1);}
+.r-1777fci{justify-content:center;}
+.r-17bb2tj{animation-duration:0.75s;}
+.r-17leim2{background-repeat:repeat;}
+.r-17s6mgv{justify-content:flex-end;}
+.r-17tb59b{opacity:0.7;}
+.r-17tloay{opacity:0.6;}
+.r-17u3ijr{background-color:rgba(155,161,166,0.27);}
+.r-184en5c{z-index:1;}
+.r-18nhz7w{top:-3px;}
+.r-18u1ve8{color:rgba(255,255,255,0.40);}
+.r-18u37iz{flex-direction:row;}
+.r-19oahor{font-size:64px;}
+.r-19wmn03{width:20px;}
+.r-19z077z{touch-action:none;}
+.r-1a2p6p6{-webkit-text-decoration-style:solid;text-decoration-style:solid;}
+.r-1abnn5w{animation-play-state:paused;}
+.r-1acpoxo{width:36px;}
+.r-1aockid{width:40px;}
+.r-1awozwy{align-items:center;}
+.r-1ay1djp{animation-duration:1s;}
+.r-1b43r93{font-size:14px;}
+.r-1c6unfx{forced-color-adjust:none;}
+.r-1c85bru{width:270px;}
+.r-1cmwbt1{gap:8px;}
+.r-1d2f490{left:0px;}
+.r-1d5kdc7{flex-direction:column-reverse;}
+.r-1ddef8g{-webkit-text-decoration-line:underline;text-decoration-line:underline;}
+.r-1dernwh{height:70%;}
+.r-1ei5mc7{cursor:inherit;}
+.r-1enofrn{font-size:12px;}
+.r-1euycsn{flex-direction:row-reverse;}
+.r-1ewcgjf{box-shadow:0px 1px 3px rgba(0,0,0,0.5);}
+.r-1ff274t{text-align:right;}
+.r-1g80hic{opacity:0.8;}
+.r-1ge9hsw{max-width:960px;}
+.r-1ghxqbu{font-variant:tabular-nums;}
+.r-1h0z5md{justify-content:flex-start;}
+.r-1h2t8mc{width:0px;}
+.r-1habvwh{align-items:flex-start;}
+.r-1i10wst{font-size:18px;}
+.r-1i6wzkk{-moz-transition-property:opacity;-webkit-transition-property:opacity;transition-property:opacity;}
+.r-1i71y14{gap:14px;}
+.r-1ikidpy{letter-spacing:0.5px;}
+.r-1iln25a{word-wrap:normal;}
+.r-1inkyih{font-size:17px;}
+.r-1iusvr4{flex-basis:0px;}
+.r-1janqcz{width:16px;}
+.r-1jkjb{margin-left:8px;}
+.r-1kb76zh{margin-right:8px;}
+.r-1kfrs79{font-weight:600;}
+.r-1kihuf0{align-self:center;}
+.r-1ld3bg{top:-4px;}
+.r-1ldzwu0{animation-timing-function:linear;}
+.r-1loqt21{cursor:pointer;}
+.r-1mlwlqe{flex-basis:auto;}
+.r-1mrlafo{background-position:0;}
+.r-1muvv40{animation-iteration-count:infinite;}
+.r-1niwhzg{background-color:rgba(0,0,0,0.00);}
+.r-1nlw0im{bottom:8px;}
+.r-1no09lo{margin-top:28px;}
+.r-1nxhmzv{margin-bottom:28px;}
+.r-1ny4l3l{outline-style:none;}
+.r-1ocf4r9{scroll-snap-type:y mandatory;}
+.r-1onu96p{border-curve:continuous;}
+.r-1oszu61{align-items:stretch;}
+.r-1otgn73{touch-action:manipulation;}
+.r-1p0dtai{bottom:0px;}
+.r-1pi2tsx{height:100%;}
+.r-1pm8pkb{font-family:Courier;}
+.r-1qd0xha{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.r-1qulhi1{animation-name:r-1pzkwqh;}
+.r-1r4fvd0{color:rgba(82,169,255,1.00);}
+.r-1r74h94{left:8px;}
+.r-1r8g8re{height:36px;}
+.r-1rnoaur{overflow-y:auto;}
+.r-1ssbvtb{gap:12px;}
+.r-1sxrcry{background-size:auto;}
+.r-1udbk01{text-overflow:ellipsis;}
+.r-1ui5ee8{font-size:32px;}
+.r-1vr29t4{font-weight:800;}
+.r-1w2pmg{height:0px;}
+.r-1w6e6rj{flex-wrap:wrap;}
+.r-1wbh5a2{flex-shrink:1;}
+.r-1wtj0ep{justify-content:space-between;}
+.r-1wyyakw{z-index:-1;}
+.r-1xcajam{position:fixed;}
+.r-1xnzce8{-moz-user-select:text;-webkit-user-select:text;user-select:text;}
+.r-1xpsq9i{box-shadow:0px 3px 3px rgba(0, 0, 0, 0.33);}
+.r-1xzupcd{width:13px;}
+.r-1yef0xd{animation-name:r-11cv4x;}
+.r-2eszeu::-webkit-scrollbar{display:none}
+.r-2eszeu{scrollbar-width:none;}
+.r-30o5oe{-moz-appearance:none;-ms-appearance:none;-webkit-appearance:none;appearance:none;}
+.r-356f0p{letter-spacing:0.35px;}
+.r-3mc0re{right:8px;}
+.r-3s2u2q{white-space:nowrap;}
+.r-417010{z-index:0;}
+.r-4gszlv{background-size:cover;}
+.r-4v7adb{height:5px;}
+.r-5oul0u{margin-bottom:8px;}
+.r-60vfwk{min-width:1px;}
+.r-633pao>* {pointer-events:none;}
+.r-633pao{pointer-events:none!important;}
+.r-6dt33c{opacity:1;}
+.r-6gpygo{margin-bottom:12px;}
+.r-6taxm2:-ms-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-moz-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-webkit-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-726pan{width:31px;}
+.r-76blku{height:21px;}
+.r-7cikom{font-size:inherit;}
+.r-7q8q6z{cursor:default;}
+.r-8akbws{-webkit-box-orient:vertical;}
+.r-8ay8q1{letter-spacing:0.1px;}
+.r-97e31f{padding-bottom:env(safe-area-inset-bottom);}
+.r-9daxd3{animation-duration:250ms;}
+.r-adyw6z{font-size:20px;}
+.r-agouwx{transform:translateZ(0);}
+.r-ah5dr5>* {pointer-events:none;}
+.r-ah5dr5{pointer-events:auto!important;}
+.r-aruset{font-weight:200;}
+.r-bi4vy9{transform:translateY(100%);}
+.r-bt1l66{min-height:20px;}
+.r-buy8e9{overflow-y:hidden;}
+.r-bv2aro{padding-left:env(safe-area-inset-left);}
+.r-c68hjy{color:rgba(161,161,161,1.00);}
+.r-cpa5s6{scroll-snap-align:start;}
+.r-cqee49{color:rgba(0,0,0,1.00);}
+.r-dkge59{background-color:rgba(170,184,194,1.00);}
+.r-dnmrzs{max-width:100%;}
+.r-eafdt9{transition-duration:0.15s;}
+.r-ebwn4k{animation-name:r-q67da2;}
+.r-ehq7j7{background-size:contain;}
+.r-eqz5dr{flex-direction:column;}
+.r-eu3ka{height:40px;}
+.r-fdjqy7{text-align:left;}
+.r-g3mlsw{animation-name:r-t2lo5v;}
+.r-ghxds0{transform:translateY(0%);}
+.r-gtdqiz{position:-webkit-sticky;position:sticky;}
+.r-h0d30l{height:28px;}
+.r-hxflta{padding-right:env(safe-area-inset-right);}
+.r-icoktb{opacity:0.5;}
+.r-ipm5af{top:0px;}
+.r-jwli3a{color:rgba(255,255,255,1.00);}
+.r-k200y{align-self:flex-start;}
+.r-kemksi{background-color:rgba(0,0,0,1.00);}
+.r-kizejy{color:rgba(155,161,166,1.00);}
+.r-knv0ih{margin-top:8px;}
+.r-leqjx2{animation-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);}
+.r-lltvgl{overflow-x:auto;}
+.r-lpb231{height:168px;}
+.r-lrsllp{width:24px;}
+.r-lrvibr{-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+.r-majxgm{font-weight:500;}
+.r-mfh4gg{scroll-snap-type:x mandatory;}
+.r-mhe3cw{z-index:10;}
+.r-mro3nb{background-color:rgba(21,23,24,1.00);}
+.r-n6v787{font-size:13px;}
+.r-o4n3w5{width:23px;}
+.r-orgf3d{opacity:0;}
+.r-q4m81j{text-align:center;}
+.r-qfi6ny{top:30000px;}
+.r-qklmqi{border-bottom-width:1px;}
+.r-qn3fzs{padding-bottom:24px;}
+.r-rjixqe{line-height:20px;}
+.r-rs94m5{background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmVyc2lvbj0iMS4xIgogICB2aWV3Qm94PSIwIDAgMSAxIgogICBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWluWU1pbiBtZWV0Ij4KICA8cGF0aAogICAgIGQ9Ik0gMC4wNDAzODA1OSwwLjYyNjc3NjcgMC4xNDY0NDY2MSwwLjUyMDcxMDY4IDAuNDI5Mjg5MzIsMC44MDM1NTMzOSAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IE0gMC4yMTcxNTcyOSwwLjgwMzU1MzM5IDAuODUzNTUzMzksMC4xNjcxNTcyOSAwLjk1OTYxOTQxLDAuMjczMjIzMyAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IgogICAgIGlkPSJyZWN0Mzc4MCIKICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgo8L3N2Zz4K");}
+.r-s62m2j{animation-timing-function:cubic-bezier(0.47, 0, 0.745, 0.715);}
+.r-sfbmgh{z-index:9999;}
+.r-so7y2g{line-height:64px;}
+.r-tsynxw{text-transform:uppercase;}
+.r-u6sd8q{background-repeat:no-repeat;}
+.r-u8s1d{position:absolute;}
+.r-u92y06{background-color:rgba(255,165,0,1.00);}
+.r-ubezar{font-size:16px;}
+.r-uho16t{font-size:34px;}
+.r-vacyoi{padding-bottom:64px;}
+.r-van48c{caret-color:transparent;}
+.r-vboj7i{top:-7px;}
+.r-vvn4in{background-position:center;}
+.r-vw2c0b{font-weight:bold;}
+.r-wfqgy4{transition-duration:100ms;}
+.r-ws9h79{left:4px;}
+.r-x11e5r{font-family:SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+.r-x3cy2q{background-size:100% 100%;}
+.r-xx3c9p{animation-name:r-imtty0;}
+.r-y7v2we{background-color:rgba(32,36,37,1.00);}
+.r-z80fyv{height:20px;}
+.r-zchlnj{right:0px;}
+.r-zz5t5d{font-size:28px;}
+@-webkit-keyframes r-11cv4x{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@-webkit-keyframes r-1iq689l{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@-webkit-keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@-webkit-keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@-webkit-keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@-webkit-keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}
+@keyframes r-11cv4x{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes r-1iq689l{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><style id="expo-generated-fonts">@font-face{font-family:"Montserrat_400Regular";src:url("/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/400Regular/Montserrat_400Regular.203d753a80557746c23ce95191fbf013.ttf");font-display:auto}
+@font-face{font-family:"Montserrat_500Medium";src:url("/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/500Medium/Montserrat_500Medium.9d496514aedf5c9bb3f689de8b094cd8.ttf");font-display:auto}
+@font-face{font-family:"Montserrat_600SemiBold";src:url("/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/600SemiBold/Montserrat_600SemiBold.c1bd726715a688ead84c2dbf4c82f88d.ttf");font-display:auto}
+@font-face{font-family:"Montserrat_700Bold";src:url("/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/700Bold/Montserrat_700Bold.c300fff4e4ae0ca994c58ac9f6639b19.ttf");font-display:auto}</style><link rel="preload" href="/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/400Regular/Montserrat_400Regular.203d753a80557746c23ce95191fbf013.ttf" as="font" crossorigin="" /><link rel="preload" href="/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/500Medium/Montserrat_500Medium.9d496514aedf5c9bb3f689de8b094cd8.ttf" as="font" crossorigin="" /><link rel="preload" href="/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/600SemiBold/Montserrat_600SemiBold.c1bd726715a688ead84c2dbf4c82f88d.ttf" as="font" crossorigin="" /><link rel="preload" href="/assets/node_modules/.pnpm/@expo-google-fonts+montserrat@0.4.2/node_modules/@expo-google-fonts/montserrat/700Bold/Montserrat_700Bold.c300fff4e4ae0ca994c58ac9f6639b19.ttf" as="font" crossorigin="" /><link rel="icon" href="/favicon.ico"/><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script><link rel="preload" href="/_expo/static/css/native-tabs.module-b5fd17766e350db18625d3e15c6985e7.css" as="style">
+<link rel="stylesheet" href="/_expo/static/css/native-tabs.module-b5fd17766e350db18625d3e15c6985e7.css"><link rel="preload" href="/_expo/static/css/web-24d2dd830ec9a27bffbcfba4f6cbccf8.css" as="style">
+<link rel="stylesheet" href="/_expo/static/css/web-24d2dd830ec9a27bffbcfba4f6cbccf8.css"></head><body><div id="root"><div class="css-g5y9jx r-13awgt0"><!--$--><div style="position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;visibility:hidden"></div><div class="css-g5y9jx r-13awgt0"><div class="css-g5y9jx r-13awgt0 r-1p0dtai r-1d2f490 r-u8s1d r-zchlnj r-ipm5af" style="background-color:rgba(242,242,242,1.00);display:flex"><div class="css-g5y9jx r-13awgt0"><div class="css-g5y9jx r-13awgt0"><!--$--><div class="css-g5y9jx flex-1"><!--$--><div style="position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;visibility:hidden"></div><div class="css-g5y9jx r-13awgt0"><div class="css-g5y9jx r-13awgt0 r-1p0dtai r-1d2f490 r-u8s1d r-zchlnj r-ipm5af" style="background-color:rgba(242,242,242,1.00);display:flex"><div class="css-g5y9jx r-13awgt0"><div class="css-g5y9jx r-13awgt0"><!--$--><div class="css-g5y9jx flex-1 bg-white"><div class="css-g5y9jx r-13awgt0 r-1udh08x"><iframe title="NAUTH campus map" srcDoc="&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot; /&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/leaflet@1.9.4/dist/leaflet.css&quot; /&gt;
+    &lt;style&gt;
+      html, body, #map { width: 100%; height: 100%; margin: 0; }
+    &lt;/style&gt;
+    &lt;script src=&quot;https://unpkg.com/leaflet@1.9.4/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://unpkg.com/leaflet-rotate@0.5.4/dist/leaflet-rotate.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+      const map = L.map(&quot;map&quot;, {
+        zoomControl: false,
+        rotate: true,
+        touchRotate: true,
+        rotateControl: false
+      }).setView([5.999, 6.881], 17);
+      L.control.zoom({ position: &quot;bottomright&quot; }).addTo(map);
+      L.tileLayer(&quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;, {
+        maxZoom: 19,
+        attribution: &quot;&amp;copy; OpenStreetMap&quot;
+      }).addTo(map);
+
+      let userMarker = null;
+      let originMarker = null;
+      let destinationMarker = null;
+      let routeLine = null;
+      let selectedPlaceId = null;
+      let places = [];
+      const placeMarkers = [];
+
+      function sendToApp(message) {
+        window.parent.postMessage(message, &quot;*&quot;);
+      }
+
+      function iconForCategory(category) {
+        switch (category) {
+          case &quot;emergency&quot;:
+            return &#x27;&lt;path d=&quot;M12 3h8v9h9v8h-9v9h-8v-9H3v-8h9z&quot;/&gt;&#x27;;
+          case &quot;clinic&quot;:
+            return &#x27;&lt;path d=&quot;M5 28V6h22v22M11 12h3m4 0h3m-10 5h3m4 0h3M12 28v-6h8v6&quot;/&gt;&#x27;;
+          case &quot;ward&quot;:
+            return &#x27;&lt;path d=&quot;M5 26V9h3v7h16v-5h3v15h-3v-6H8v6z&quot;/&gt;&lt;path d=&quot;M10 15v-4h5a4 4 0 0 1 4 4z&quot;/&gt;&#x27;;
+          case &quot;diagnostics&quot;:
+            return &#x27;&lt;path d=&quot;M11 4h10M14 4v9L7 25a2 2 0 0 0 2 3h14a2 2 0 0 0 2-3l-7-12V4M11 21h12&quot;/&gt;&#x27;;
+          case &quot;mother-child&quot;:
+            return &#x27;&lt;circle cx=&quot;12&quot; cy=&quot;10&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;22&quot; cy=&quot;13&quot; r=&quot;3&quot;/&gt;&lt;path d=&quot;M4 27v-3a8 8 0 0 1 16 0v3M19 20a6 6 0 0 1 9 5v2h-7&quot;/&gt;&#x27;;
+          case &quot;gate&quot;:
+            return &#x27;&lt;path d=&quot;M5 28V11a11 11 0 0 1 22 0v17M10 28V12a6 6 0 0 1 12 0v16M3 28h26&quot;/&gt;&#x27;;
+          case &quot;theatre&quot;:
+            return &#x27;&lt;path d=&quot;m7 25 14-14m-8 16 4-4m-3-15 2-2a3 3 0 0 1 4 4l-2 2m4 4 2-2a3 3 0 0 1 4 4l-2 2&quot;/&gt;&#x27;;
+          default:
+            return &#x27;&lt;path d=&quot;M5 28V6h22v22M11 12h3m4 0h3m-10 5h3m4 0h3M12 28v-6h8v6&quot;/&gt;&#x27;;
+        }
+      }
+
+      function pinHtml(color) {
+        return &#x27;&lt;svg viewBox=&quot;0 0 32 40&quot; width=&quot;32&quot; height=&quot;40&quot; aria-hidden=&quot;true&quot;&gt;&#x27; +
+          &#x27;&lt;path d=&quot;M16 1C7.8 1 1.5 7.3 1.5 15.2c0 10.1 14.5 23.3 14.5 23.3s14.5-13.2 14.5-23.3C30.5 7.3 24.2 1 16 1z&quot; fill=&quot;&#x27; +
+          color + &#x27;&quot; stroke=&quot;#111827&quot; stroke-width=&quot;2&quot;/&gt;&#x27; +
+          &#x27;&lt;circle cx=&quot;16&quot; cy=&quot;15&quot; r=&quot;5&quot; fill=&quot;#ffffff&quot; stroke=&quot;#111827&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;/svg&gt;&#x27;;
+      }
+
+      function locationIcon(color) {
+        return L.divIcon({
+          className: &quot;&quot;,
+          html: pinHtml(color),
+          iconSize: [32, 40],
+          iconAnchor: [16, 38]
+        });
+      }
+
+      function markerHtml(place, selected) {
+        const svg = &#x27;&lt;svg viewBox=&quot;0 0 32 32&quot; width=&quot;28&quot; height=&quot;28&quot; aria-hidden=&quot;true&quot; fill=&quot;#F4CD32&quot; stroke=&quot;#111827&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&#x27; +
+          iconForCategory(place.category) + &#x27;&lt;/svg&gt;&#x27;;
+        const icon = selected ? pinHtml(&quot;#F4CD32&quot;) : svg;
+        const label = String(place.name || &quot;&quot;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g, function (char) {
+          return { &quot;&amp;&quot;: &quot;&amp;amp;&quot;, &quot;&lt;&quot;: &quot;&amp;lt;&quot;, &quot;&gt;&quot;: &quot;&amp;gt;&quot;, &#x27;&quot;&#x27;: &quot;&amp;quot;&quot;, &quot;&#x27;&quot;: &quot;&amp;#39;&quot; }[char];
+        });
+        return &#x27;&lt;div style=&quot;display:flex;flex-direction:column;align-items:center;transform:translateY(-3px);&quot;&gt;&#x27; +
+          &#x27;&lt;div style=&quot;filter:drop-shadow(0 1px 1px rgba(0,0,0,.24));&#x27; +
+          (selected ? &#x27;transform:scale(1.15);&#x27; : &#x27;&#x27;) + &#x27;&quot;&gt;&#x27; + icon + &#x27;&lt;/div&gt;&#x27; +
+          &#x27;&lt;div style=&quot;margin-top:2px;max-width:110px;text-align:center;font-size:10px;line-height:12px;font-weight:700;color:#111827;text-shadow:-1px -1px 0 #fff,1px -1px 0 #fff,-1px 1px 0 #fff,1px 1px 0 #fff;&quot;&gt;&#x27; +
+          label + &#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+      }
+
+      function clearPlaces() {
+        placeMarkers.forEach(function (marker) { map.removeLayer(marker); });
+        placeMarkers.length = 0;
+      }
+
+      function setPlaces(nextPlaces) {
+        places = Array.isArray(nextPlaces) ? nextPlaces : [];
+        clearPlaces();
+        places.forEach(function (place) {
+          if (typeof place.lat !== &quot;number&quot; || typeof place.lng !== &quot;number&quot;) return;
+          const selected = selectedPlaceId === place.id;
+          const marker = L.marker([place.lat, place.lng], {
+            icon: L.divIcon({
+              className: &quot;&quot;,
+              html: markerHtml(place, selected),
+              iconSize: [112, 52],
+              iconAnchor: [56, 32]
+            })
+          }).addTo(map);
+          marker.on(&quot;click&quot;, function () {
+            selectedPlaceId = place.id || null;
+            setPlaces(places);
+            sendToApp({ type: &quot;placeTap&quot;, id: place.id, name: place.name });
+          });
+          placeMarkers.push(marker);
+        });
+      }
+
+      function clearPlaceSelection() {
+        if (!selectedPlaceId) return;
+        selectedPlaceId = null;
+        setPlaces(places);
+      }
+
+      function setLocation(lat, lng, center) {
+        if (userMarker) {
+          userMarker.setLatLng([lat, lng]);
+        } else {
+          userMarker = L.circleMarker([lat, lng], {
+            radius: 8,
+            color: &quot;#187FF6&quot;,
+            fillColor: &quot;#187FF6&quot;,
+            fillOpacity: 0.9,
+            weight: 2
+          }).addTo(map);
+        }
+        if (center !== false) map.panTo([lat, lng]);
+      }
+
+      function setOrigin(lat, lng, name) {
+        if (originMarker) map.removeLayer(originMarker);
+        originMarker = L.marker([lat, lng], {
+          icon: locationIcon(&quot;#22C55E&quot;)
+        }).addTo(map);
+        if (name) originMarker.bindTooltip(name);
+        map.panTo([lat, lng]);
+      }
+
+      function resetNorth() {
+        if (typeof map.resetNorth === &quot;function&quot;) map.resetNorth();
+        else if (typeof map.setBearing === &quot;function&quot;) map.setBearing(0);
+      }
+
+      function clearRoute() {
+        if (routeLine) map.removeLayer(routeLine);
+        if (destinationMarker) map.removeLayer(destinationMarker);
+        routeLine = null;
+        destinationMarker = null;
+      }
+
+      function drawRoute(points) {
+        clearRoute();
+        if (!Array.isArray(points) || points.length &lt; 2) return;
+        routeLine = L.polyline(points, { color: &quot;#EF4444&quot;, weight: 5, opacity: 0.9 }).addTo(map);
+        const end = points[points.length - 1];
+        destinationMarker = L.marker(end, {
+          icon: locationIcon(&quot;#F4CD32&quot;)
+        }).addTo(map);
+        map.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
+      }
+
+      function setDestination(lat, lng, name) {
+        if (destinationMarker) map.removeLayer(destinationMarker);
+        destinationMarker = L.marker([lat, lng], {
+          icon: locationIcon(&quot;#F4CD32&quot;)
+        }).addTo(map);
+        if (name) {
+          const label = document.createElement(&quot;span&quot;);
+          label.textContent = name;
+          destinationMarker.bindPopup(label).openPopup();
+        }
+      }
+
+      window.addEventListener(&quot;message&quot;, function (event) {
+        if (event.source !== window.parent || !event.data || typeof event.data !== &quot;object&quot;) return;
+        const message = event.data;
+        switch (message.type) {
+          case &quot;setLocation&quot;: setLocation(message.lat, message.lng, message.center); break;
+          case &quot;setOrigin&quot;: setOrigin(message.lat, message.lng, message.name); break;
+          case &quot;resetNorth&quot;: resetNorth(); break;
+          case &quot;setPlaces&quot;: setPlaces(message.places); break;
+          case &quot;clearPlaceSelection&quot;: clearPlaceSelection(); break;
+          case &quot;setDestination&quot;: setDestination(message.lat, message.lng, message.name); break;
+          case &quot;drawRoute&quot;: drawRoute(message.points); break;
+          case &quot;clearRoute&quot;: clearRoute(); break;
+        }
+      });
+
+      map.on(&quot;click&quot;, function () {
+        if (!selectedPlaceId) return;
+        clearPlaceSelection();
+        sendToApp({ type: &quot;placeDismiss&quot; });
+      });
+      sendToApp({ type: &quot;ready&quot; });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;border:0"></iframe></div><div class="css-g5y9jx absolute left-4 flex-row items-start gap-2 right-4" style="top:8px"><div class="css-g5y9jx flex-1 bg-white rounded-2xl overflow-hidden border border-[#202124]" style="box-shadow:0px 2px 5px rgba(0,0,0,0.10)"><div tabindex="0" class="css-g5y9jx r-1loqt21 r-1otgn73 flex-row items-center px-4 py-2 border-b border-border"><div class="css-g5y9jx w-2.5 h-2.5 rounded-full bg-primary mr-3"></div><div class="css-g5y9jx flex-1"><div dir="auto" class="css-146c3p1 text-ink-muted text-xs">From</div><div dir="auto" class="css-146c3p1 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-1iln25a text-ink text-sm font-semibold">My location</div></div><div dir="auto" class="css-146c3p1"></div></div><div tabindex="0" class="css-g5y9jx r-1loqt21 r-1otgn73 flex-row items-center px-4 py-2"><div class="css-g5y9jx w-2.5 h-2.5 rounded-full mr-3 bg-[#EFC718]"></div><div class="css-g5y9jx flex-1"><div dir="auto" class="css-146c3p1 text-ink-muted text-xs">To</div><div dir="auto" class="css-146c3p1 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-1iln25a text-sm font-semibold text-ink-muted">Search clinics, wards, labs...</div></div><div dir="auto" class="css-146c3p1"></div></div></div><button aria-disabled="true" disabled="" aria-label="Clear destination or close place details" role="button" tabindex="-1" class="css-g5y9jx r-12vffkv w-12 h-12 rounded-full bg-white border border-[#202124] items-center justify-center opacity-50" type="button"><div dir="auto" class="css-146c3p1"></div></button></div><div class="css-g5y9jx absolute right-4 gap-3" style="top:142px"><button aria-label="Locate me" role="button" tabindex="0" class="css-g5y9jx r-1loqt21 r-1otgn73 w-12 h-12 bg-white rounded-full items-center justify-center" type="button"><div dir="auto" class="css-146c3p1"></div></button><button aria-label="Reset map north" role="button" tabindex="0" class="css-g5y9jx r-1loqt21 r-1otgn73 w-12 h-12 bg-white rounded-full items-center justify-center" type="button"><div dir="auto" class="css-146c3p1"></div></button></div></div><!--/$--></div></div></div></div><!--/$--><button aria-label="Open menu" role="button" tabindex="0" class="css-g5y9jx r-1loqt21 r-1otgn73 absolute left-5 bottom-5 w-14 h-14 rounded-full bg-primary items-center justify-center" style="z-index:21" type="button"><div dir="auto" class="css-146c3p1"></div></button></div><!--/$--></div></div></div></div><!--/$--></div></div><script src="/_expo/static/js/web/entry-3ca2a3a5fadabf7a5baaada579208a58.js" defer></script>
+</body></html>

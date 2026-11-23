@@ -1,4 +1,7 @@
 {
+  "deno.enable": false,
+  "deno.enablePaths": ["supabase/functions"],
+  "deno.unstable": ["sloppy-imports"],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
