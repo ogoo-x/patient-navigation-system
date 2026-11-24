@@ -1,0 +1,556 @@
+// src/data/places.ts
+export type Place = {
+  id: string;
+  name: string;
+  aliases?: string[];
+  category:
+    | "emergency"
+    | "clinic"
+    | "ward"
+    | "diagnostics"
+    | "mother-child"
+    | "amenity"
+    | "gate"
+    | "theatre";
+  parentId?: string;
+  badge?: string;
+  popular?: boolean;
+  lat?: number;
+  lng?: number;
+  imageUri?: string;
+  showOnMap?: boolean;
+  summary?: string;
+  services?: string[];
+  hours?: string;
+  notes?: string[];
+  // images later: photoUris?: string[];
+};
+
+export const places: Place[] = [
+  // ── Popular ───────────────────────────────────────────────────
+  {
+    id: "ae",
+    name: "Accident & Emergency",
+    category: "emergency",
+    badge: "24/7 Priority",
+    popular: true,
+    showOnMap: true,
+    lat: 6.000139,
+    lng: 6.881833,
+    summary:
+      "Come here first for acute emergencies. Includes medical emergency and trauma services on site.",
+    hours: "Open 24 hours, every day",
+    services: [
+      "Trauma and resuscitation",
+      "Acute medical emergencies",
+      "Ambulance reception",
+      "Wheelchair-accessible entrance",
+    ],
+    notes: [
+      "Contains the Trauma Unit and Medical Emergency areas",
+      "Paediatric Surgery Ward and Orthopaedic Ward are linked to the trauma side",
+    ],
+  },
+  {
+    id: "gopd",
+    name: "General Out-Patient Department (GOPD)",
+    aliases: ["gopd", "general outpatient", "general out-patient"],
+    category: "clinic",
+    badge: "Downstairs",
+    showOnMap: true,
+    popular: true,
+    lat: 5.999056,
+    lng: 6.882167,
+    summary: "General outpatient services for non-emergency consultations.",
+    hours: "Open 8 AM - 5 PM, Monday to Friday",
+    services: [
+      "General consultations",
+      "Routine check-ups",
+      "Vaccinations",
+      "Orthopaedics clinic and casting room",
+      "Cardiology clinic, ECG lab, echo lab",
+      "Urology clinic",
+      "General surgery clinic",
+    ],
+    notes: [
+      "Orthopaedics / Cardiology / Urology / General Surgery clinics: upstairs",
+      "Sample clinic days (confirm on site): Cardiology Tue & Thu; Urology Mon & Wed; Orthopaedics Mon & Fri; General Surgery Tue & Thu",
+    ],
+  },
+  {
+    id: "sopd",
+    name: "Surgical Out-Patient Department (SOPD)",
+    aliases: ["sopd", "surgical outpatient", "surgical out-patient"],
+    summary:
+      "Surgical outpatient department. Paediatrics and gynaecology clinics upstairs; surgical specialties downstairs.",
+    services: [
+      "Paediatric surgery",
+      "Neurosurgery",
+      "Plastic surgery",
+      "Cardiothoracic surgery",
+      "Paediatrics clinic (upstairs)",
+      "Gynaecology clinic (upstairs)",
+    ],
+    notes: [
+      "Downstairs: paediatric surgery, neurosurgery, plastic surgery, cardiothoracic",
+      "Upstairs: paediatrics clinic, gynaecology clinic",
+    ],
+    category: "clinic",
+    showOnMap: true,
+    popular: true,
+    lat: 5.999333,
+    lng: 6.881,
+  },
+  {
+    id: "mopc",
+    name: "Medical Out-Patient Clinic",
+    aliases: ["mopd", "mopc", "medical outpatient"],
+    category: "clinic",
+    showOnMap: true,
+    popular: true,
+    lat: 5.99925,
+    lng: 6.879611,
+  },
+  {
+    id: "main-gate",
+    name: "Main Gate",
+    aliases: ["gate", "exit", "entrance", "main entrance"],
+    category: "gate",
+    showOnMap: true,
+    popular: true,
+    lat: 6.001417,
+    lng: 6.882389,
+  },
+
+  // ── Accident & Emergency / Trauma building ────────────────────
+  {
+    id: "ae-trauma",
+    name: "Trauma Unit",
+    aliases: ["trauma", "resuscitation", "trauma unit"],
+    category: "emergency",
+    parentId: "ae",
+    badge: "24/7",
+    showOnMap: true,
+    lat: 5.999944,
+    lng: 6.881944,
+  },
+  {
+    id: "ae-medical",
+    name: "Medical Emergency",
+    aliases: ["medical emergency", "acute admission"],
+    category: "emergency",
+    parentId: "ae",
+    badge: "24/7",
+    showOnMap: true,
+    lat: 5.999944,
+    lng: 6.881556,
+  },
+  {
+    id: "ae-paeds-surgery-ward",
+    name: "Paediatric Surgery Ward",
+    aliases: [
+      "pediatric surgery ward",
+      "children surgery ward",
+      "paeds surgery ward",
+    ],
+    category: "ward",
+    hours: "Open 24 hours",
+    summary: "Inpatient ward. Visiting rules apply; ask staff on arrival.",
+    parentId: "ae",
+    badge: "Downstairs",
+    lat: 5.999944,
+    lng: 6.881944,
+  },
+  {
+    id: "ae-ortho-ward",
+    name: "Orthopaedic Ward",
+    aliases: ["orthopedic ward", "ortho ward", "bone ward"],
+    category: "ward",
+    hours: "Open 24 hours",
+    summary: "Inpatient ward. Visiting rules apply; ask staff on arrival.",
+    parentId: "ae",
+    badge: "In Trauma building",
+    lat: 5.999944,
+    lng: 6.881944,
+  },
+
+  // ── Medical Ward Complex (Emeka-Offor) ────────────────────────
+  {
+    id: "medical-ward-complex",
+    name: "Medical Ward Complex",
+    aliases: [
+      "emeka-offor",
+      "emeka offor",
+      "emeka offor building",
+      "medical wards",
+      "medical ward",
+    ],
+    category: "ward",
+    hours: "Open 24 hours",
+    summary: "Inpatient ward. Visiting rules apply; ask staff on arrival.",
+    showOnMap: true,
+    lat: 5.998417,
+    lng: 6.879694,
+  },
+  {
+    id: "male-medical-ward",
+    name: "Male Medical Ward",
+    aliases: ["male medical", "men medical ward", "mmw"],
+    category: "ward",
+    parentId: "medical-ward-complex",
+    badge: "Downstairs",
+    lat: 5.998417,
+    lng: 6.879694,
+  },
+  {
+    id: "female-medical-ward",
+    name: "Female Medical Ward",
+    aliases: ["female medical", "women medical ward", "fmw"],
+    category: "ward",
+    parentId: "medical-ward-complex",
+    badge: "Upstairs",
+    lat: 5.998417,
+    lng: 6.879694,
+  },
+
+  // ── Surgical Complex ──────────────────────────────────────────
+  {
+    id: "surgical-complex",
+    name: "Surgical Complex",
+    aliases: ["surgery complex", "surgical block", "surgical ward complex"],
+    category: "ward",
+    showOnMap: true,
+    lat: 5.996528,
+    lng: 6.879722,
+  },
+  {
+    id: "male-surgical-ward",
+    name: "Male Surgical Ward",
+    aliases: ["male surgical", "men surgical ward", "msw"],
+    category: "ward",
+    parentId: "surgical-complex",
+    badge: "Downstairs",
+    lat: 5.996528,
+    lng: 6.879722,
+  },
+  {
+    id: "female-surgical-ward",
+    name: "Female Surgical Ward",
+    aliases: ["female surgical", "women surgical ward", "fsw"],
+    category: "ward",
+    parentId: "surgical-complex",
+    badge: "Upstairs",
+    lat: 5.996528,
+    lng: 6.879722,
+  },
+  {
+    id: "operating-theatre",
+    name: "Operating Theatre",
+    aliases: [
+      "surgical theatre",
+      "operating theater",
+      "theatre",
+      "theater",
+      "ot",
+      "or",
+      "main operating theatre",
+    ],
+    category: "theatre",
+    parentId: "surgical-complex",
+    showOnMap: true,
+    lat: 5.996389,
+    lng: 6.879694,
+  },
+
+  // ── GOPD children (same building pin) ─────────────────────────
+  {
+    id: "gopd-ortho",
+    name: "Orthopaedics Clinic",
+    aliases: ["ortho", "orthopedic", "orthopaedics", "bone", "joint"],
+    category: "clinic",
+    parentId: "gopd",
+    badge: "Upstairs",
+    lat: 5.999056,
+    lng: 6.882167,
+  },
+  {
+    id: "gopd-cardio",
+    name: "Cardiology Clinic & ECG Lab",
+    aliases: ["cardiology", "ecg", "heart clinic"],
+    category: "clinic",
+    parentId: "gopd",
+    badge: "Upstairs",
+    lat: 5.999056,
+    lng: 6.882167,
+  },
+  {
+    id: "gopd-urology",
+    name: "Urology Clinic",
+    aliases: ["urology", "kidney clinic"],
+    category: "clinic",
+    parentId: "gopd",
+    badge: "Upstairs",
+    lat: 5.999056,
+    lng: 6.882167,
+  },
+  {
+    id: "gopd-general-surgery",
+    name: "General Surgery Clinic",
+    aliases: ["general surgery clinic"],
+    category: "clinic",
+    parentId: "gopd",
+    badge: "Upstairs",
+    lat: 5.999056,
+    lng: 6.882167,
+  },
+
+  // ── SOPD children ─────────────────────────────────────────────
+  {
+    id: "sopd-paeds",
+    name: "Paediatric Surgery",
+    aliases: ["paediatric surgery", "pediatric surgery", "children surgery"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Downstairs",
+    lat: 5.999333,
+    lng: 6.881,
+  },
+  {
+    id: "sopd-neuro",
+    name: "Neurosurgery",
+    aliases: ["neuro", "brain", "spine"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Downstairs",
+    lat: 5.999333,
+    lng: 6.881,
+  },
+  {
+    id: "sopd-plastic",
+    name: "Plastic Surgery",
+    aliases: ["plastic", "reconstructive"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Downstairs",
+    lat: 5.999333,
+    lng: 6.881,
+  },
+  {
+    id: "sopd-cardio",
+    name: "Cardiothoracic Surgery Clinics",
+    aliases: ["cardiothoracic", "heart surgery"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Downstairs",
+    lat: 5.999333,
+    lng: 6.881,
+  },
+  {
+    id: "sopd-gynae",
+    name: "Gynaecology Clinic",
+    aliases: ["gynecology", "gynaecology", "gynae", "gyne"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Upstairs",
+    showOnMap: true,
+    lat: 5.998972,
+    lng: 6.881111,
+  },
+  {
+    id: "sopd-paeds-clinic",
+    name: "Paediatrics Clinic",
+    aliases: ["pediatrics clinic", "paediatrics", "children clinic"],
+    category: "clinic",
+    parentId: "sopd",
+    badge: "Upstairs",
+    showOnMap: true,
+    lat: 5.999,
+    lng: 6.88075,
+  },
+
+  // ── Medical Out-Patient Clinic children ───────────────────────
+  {
+    id: "mopc-nephro",
+    name: "Nephrology & Neurology",
+    aliases: ["nephrology", "neurology", "renal"],
+    category: "clinic",
+    parentId: "mopc",
+    lat: 5.99925,
+    lng: 6.879611,
+  },
+  {
+    id: "mopc-gastro",
+    name: "Gastroenterology & Rheumatology",
+    aliases: ["gastro", "rheumatology"],
+    category: "clinic",
+    parentId: "mopc",
+    lat: 5.99925,
+    lng: 6.879611,
+  },
+  {
+    id: "mopc-resp",
+    name: "Respirology & Asthma Clinic",
+    aliases: ["respirology", "asthma", "chest", "lung"],
+    category: "clinic",
+    parentId: "mopc",
+    lat: 5.99925,
+    lng: 6.879611,
+  },
+
+  // ── Laboratories ──────────────────────────────────────────────
+  {
+    id: "haematology-lab",
+    name: "Haematology Laboratory",
+    aliases: [
+      "hematology",
+      "haematology",
+      "blood bank",
+      "bloodbank",
+      "blood lab",
+    ],
+    category: "diagnostics",
+    badge: "Includes Blood Bank",
+    showOnMap: true,
+    lat: 5.999139,
+    lng: 6.881444,
+  },
+  {
+    id: "microbiology-lab",
+    name: "Microbiology Laboratory",
+    aliases: ["microbiology", "micro lab", "microbiology lab"],
+    category: "diagnostics",
+    lat: 5.998833,
+    lng: 6.879194,
+  },
+  {
+    id: "chemical-pathology-lab",
+    name: "Chemical Pathology Laboratory",
+    aliases: [
+      "chemical pathology",
+      "chem path",
+      "chemical path",
+      "pathology lab",
+    ],
+    category: "diagnostics",
+    // no pin yet
+  },
+
+  // ── Physiotherapy ─────────────────────────────────────────────
+  {
+    id: "physiotherapy",
+    name: "Physiotherapy & Rehabilitation Complex",
+    aliases: [
+      "physiotherapy",
+      "physio",
+      "rehabilitation",
+      "rehab",
+      "rehab complex",
+    ],
+    category: "amenity",
+    // no pin yet
+  },
+
+  // ── Mother & Child ────────────────────────────────────────────
+  {
+    id: "mother-child",
+    name: "Arthur Eze Mother & Child Complex",
+    aliases: [
+      "mother and child",
+      "maternal",
+      "maternity",
+      "new mother and child",
+      "arthur eze",
+    ],
+    category: "mother-child",
+    showOnMap: true,
+    lat: 5.997417,
+    lng: 6.879472,
+  },
+  {
+    id: "mother-child-antenatal",
+    name: "Antenatal Care Clinic",
+    aliases: ["antenatal", "anc", "prenatal", "antenatal care"],
+    category: "mother-child",
+    showOnMap: true,
+    lat: 5.998806,
+    lng: 6.880306,
+  },
+  {
+    id: "mother-child-nicu",
+    name: "NICU / Special Care Baby Unit",
+    aliases: [
+      "nicu",
+      "scbu",
+      "special care baby unit",
+      "neonatal",
+      "neonatal intensive care",
+      "baby unit",
+    ],
+    category: "mother-child",
+    parentId: "mother-child",
+    lat: 5.997417,
+    lng: 6.879472,
+  },
+  {
+    id: "mother-child-old",
+    name: "Old Mother & Child Complex",
+    aliases: ["old mother and child", "old maternity"],
+    category: "mother-child",
+    badge: "Not functional",
+    showOnMap: true,
+    lat: 5.997778,
+    lng: 6.879417,
+  },
+  {
+    id: "paediatric-emergency",
+    name: "Paediatric Emergency",
+    aliases: ["children emergency", "pediatric emergency", "paeds emergency"],
+    category: "emergency",
+    badge: "24/7",
+    showOnMap: true,
+    lat: 5.999917,
+    lng: 6.880361,
+  },
+
+  // ── Multipurpose ──────────────────────────────────────────────
+  {
+    id: "multipurpose",
+    name: "Multipurpose Complex",
+    aliases: ["multipurpose"],
+    category: "amenity",
+    showOnMap: true,
+    lat: 5.998556,
+    lng: 6.88075,
+  },
+  {
+    id: "multipurpose-food",
+    name: "Restaurants & Food Court",
+    aliases: ["restaurant", "food", "dining", "food court"],
+    category: "amenity",
+    parentId: "multipurpose",
+    // showOnMap: true,
+    badge: "Wing A",
+    lat: 5.998556,
+    lng: 6.88075,
+  },
+  {
+    id: "multipurpose-creche",
+    name: "Childcare Services & Creche",
+    aliases: ["creche", "childcare", "daycare"],
+    category: "amenity",
+    parentId: "multipurpose",
+    // showOnMap: true,
+    badge: "Wing B",
+    lat: 5.998556,
+    lng: 6.88075,
+  },
+  {
+    id: "ibeto-ict",
+    name: "Ibeto ICT Centre",
+    aliases: ["ibeto", "ict", "ict centre", "ict center"],
+    category: "amenity",
+    showOnMap: true,
+    lat: 6.000278,
+    lng: 6.882667,
+  },
+];

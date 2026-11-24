@@ -1,6 +1,6 @@
 /** @type {import("tailwindcss").Config} */
 module.exports = {
-  content: ["./app/**/*.{js,jsx}", "./src/**/*.{js,jsx}"],
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
@@ -11,7 +11,12 @@ module.exports = {
         field: "#F3F6FF",
         ink: "#111827",
         "ink-muted": "#6B7280",
+        border: "#E5E9F0",
         route: "#F0553F",
+      },
+      fontFamily: {
+        sans: ["Montserrat_400Regular"],
+        montserrat: ["Montserrat_400Regular"],
       },
     },
   },
