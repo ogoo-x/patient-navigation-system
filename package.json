@@ -2,6 +2,7 @@
   "name": "bubbles",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "pnpm@12.8.1",
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.4.2",
     "@expo/ui": "~57.0.26",
