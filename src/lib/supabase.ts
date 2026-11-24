@@ -12,15 +12,17 @@ export const supabaseConfigError =
     ? "Account sign-in is unavailable right now. Please try again later."
     : null;
 
+const isServerRender = typeof window === "undefined";
+
 export const supabase =
   supabaseUrl && supabaseAnonKey
     ? createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        storage: Platform.OS === "web" ? undefined : AsyncStorage,
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: false,
-        flowType: "pkce",
-      },
+        auth: {
+          storage: Platform.OS === "web" ? undefined : AsyncStorage,
+          autoRefreshToken: true,
+          persistSession: true,
+          detectSessionInUrl: false,
+          flowType: "pkce",
+        },
       })
     : null;
